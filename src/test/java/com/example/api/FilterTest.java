@@ -48,7 +48,7 @@ public class FilterTest {
 
 		Filter filter = buildAdminAgeFilter();
 
-		user.put(USER_AGE, "25");
+		user.put(USER_AGE, "22");
 		assert !filter.matches(user); // Filter should not match.
 	}
 
@@ -61,9 +61,18 @@ public class FilterTest {
 	}
 
 	@Test
+	public void should_filter_accept_a_given_property() {
+
+		Filter filter = new Filter(new ExistsCriteria("new_name"));
+
+		user.put("new_name", "");
+		assert filter.matches(user); // Filter should match.
+	}
+
+	@Test
 	public void should_filter_reject_unnamed() {
 
-		Filter filter = new Filter(new ExistsCriteria(USER_LASTNAME, null));
+		Filter filter = new Filter(new ExistsCriteria(USER_LASTNAME));
 
 		user.remove(USER_LASTNAME);
 		assert !filter.matches(user); // Filter should not match.
