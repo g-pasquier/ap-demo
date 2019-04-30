@@ -6,9 +6,12 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.example.api.criteria.AgeCriteria;
+import com.example.api.criteria.RoleCriteria;
+
 public class FilterTest {
 
-	private Map<String, String> user = new LinkedHashMap<String, String>();
+	private Map<String, String> user = new LinkedHashMap<>();
 	
 	@Before
 	public void init() {
@@ -20,21 +23,26 @@ public class FilterTest {
 	
 	@Test
 	public void should_filter_accept() {
-		
-		user.put("age", "35");		
-
+				
 		// Create a filter which matches all administrators older than 30:
-		Filter filter = new Filter();
+		AgeCriteria ageCriteria = new AgeCriteria("30");
+		RoleCriteria roleCriteria = new RoleCriteria("administrator");
+		
+		Filter filter = new Filter(ageCriteria.and(roleCriteria));
+		
+		user.put("age", "35");
 		assert filter.matches(user); // Filter should match.
 	}
 	
 	@Test
 	public void should_filter_reject() {
 		
-		user.put("age", "25");
+		AgeCriteria ageCriteria = new AgeCriteria("30");
+		RoleCriteria roleCriteria = new RoleCriteria("administrator");
 		
-		Filter filter = new Filter();
+		Filter filter = new Filter(ageCriteria.and(roleCriteria));
 		
+		user.put("age", "25");		
 		assert !filter.matches(user); // Filter should not match.
 	}
 	
