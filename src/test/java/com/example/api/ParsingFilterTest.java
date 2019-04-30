@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.example.api.criteria.Criteria;
+import com.example.api.criteria.EqualsCriteria;
 
 public class ParsingFilterTest {
 
@@ -39,9 +40,10 @@ public class ParsingFilterTest {
 			Criteria criteria = factory.buildCriteria(entry.getKey(), entry.getValue());
 			criteriaList.add(criteria);
 		}
-
 		logger.info(criteriaList.toString());
 
+		// must be an EqualsCriteria!
+		assert criteriaList.get(0) instanceof EqualsCriteria;
 	}
 
 }
