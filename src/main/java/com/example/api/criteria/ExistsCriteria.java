@@ -2,20 +2,22 @@ package com.example.api.criteria;
 
 import java.util.Map;
 
-public class ExistsCriteria extends KeyValueCriteria implements Criteria {
+public class ExistsCriteria implements Criteria {
 
-	public ExistsCriteria(String k) {
-		super(k, null);
-	}
+    private String key;
 
-	@Override
-	public boolean matches(Map<String, String> user) {
-		try {
-			return user.containsKey(this.key);
+    public ExistsCriteria(String key) {
+        this.key = key;
+    }
 
-		} catch (Exception e) {
-			return false;
-		}
-	}
+    @Override
+    public boolean matches(Map<String, String> user) {
+        try {
+            return user.containsKey(this.key);
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 }
