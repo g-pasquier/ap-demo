@@ -8,6 +8,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.example.api.criteria.Criteria;
 import com.example.api.criteria.EqualsCriteria;
 import com.example.api.criteria.ExistsCriteria;
 import com.example.api.criteria.GreaterThanCriteria;
@@ -117,8 +118,18 @@ public class FilterTest {
     }
 
     @Test
-    public void is_always_true() {
+    public void should_be_always_true() {
         assertThat(new Filter(new TrueCriteria()).matches(user)).isTrue();
+    }
+
+    @Test
+    public void should_accept_multiple_and() {
+
+        Criteria c = new EqualsCriteria(USER_FIRSTNAME, "John")
+                .and(new EqualsCriteria(USER_LASTNAME, "Doe").and(new GreaterThanCriteria(USER_AGE, "30")));
+
+        user.put(USER_AGE, "31");
+        assertThat(new Filter(c).matches(user)).isTrue();
     }
 
 }
